@@ -34,6 +34,14 @@ Foreslået løsning:
 * Directorystruktur bevares i bitmagasinet i FilID
 * Directorystruktur bevares i DOMS ved et objekt pr. directory, en datastream pr. fil. Directorynavne bevares i object labels, filnavne bevares i datastream labels.
 
+## Bitarkivet og bånd
+Overordnet beskrivelse:
+  Alle de involverede ben vil have en anseelig mændge cache, men vil være tape-backed
+* Filer der fejler validering vil blive slettet igen
+* Filer i cache ville blive rullet på bånd når et bestemt, men pt. udefineret, signal sendes. 
+* Vi antager at vi kan validere og afvise et batch før det bliver nødvendigt at rulle det på bånd, men i værste fald er der spildt noget plads på båndet
+* Nøglen der giver adgang til at slette fra bitmagasinet kan også slette allerede godkendte batches.
+
 ## Opgaver på data (jp2-filer)
 Overordnet beskrivelse:
   Alle operationer på data køres som hadoop-jobs på filer i bitmagasinet. Herunder karakterisering og generering af formidlingskopier.
@@ -63,3 +71,12 @@ Foreslået løsning:
 * Ud fra dette udtræk laves et regneark (csv-fil) med link til fremvisning og DOMS GUI.
 * Til dette ark tilføjes mistænkelige objekter med tilsvarende links og en begrundelse for hvorfor de er mistænkelige
 * Vi laver ingen support af hvordan regnearkene benyttes til at godkende batches
+
+## Fejlede batches
+Overordnet beskrivelse:
+  Batches fejles eller godkendes som et hele. Man kan ikke afvise dele af et batch, og leverandøren vil aflevere et nyt batch.
+* Hvis et batch fejler, skal hele batches slettes fra Bitarkivet
+* Slette fra bitmagasinet involverer anskaffelse af slette nøglen
+* Hvis et batch fejler, skal hele batches slettes fra DOMS
+* Doms kan slette uden en bestemt slette nøgle, da alt bliver bevaret alligevel, og kan genskabes.
+* Et genafleveret batch skal behandles på samme måde som et nyt batch
