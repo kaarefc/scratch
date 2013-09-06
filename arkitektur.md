@@ -13,11 +13,13 @@
 * Automatisk QA skal desuden kunne køres af Ninestars
 
 ## Elementer i løsningen:
+
 ### Eksisterende elementer:
 * Bitmagasin
 * DOMS
 * Hadoop-platform
 * DOMS-GUI
+
 ### Nye elementer
 * Fremvisningsinterface af sider (Prototype fra Toke)
 * Early Ingest-platform
@@ -27,6 +29,7 @@
 ## Ingest i arkivet
 Overordnet beskrivelse:
   Givet et batch, læg alle jp2-filer i bitmagasinet og alle xml-filer (inklusive ALTO) i Fedora
+
 Foreslået løsning:
 * Hotfolder overvåges for nye batches
 * Alle filer med extension *.jp2 lægges i bitmagasinet (.md5-fil bruges til checksumscheck) (løsningen bør være konfigurerbar til forskellige extensions)
@@ -36,15 +39,19 @@ Foreslået løsning:
 
 ## Bitarkivet og bånd
 Overordnet beskrivelse:
-  Alle de involverede ben vil have en anseelig mændge cache, men vil være tape-backed
-* Filer der fejler validering vil blive slettet igen
-* Filer i cache ville blive rullet på bånd når et bestemt, men pt. udefineret, signal sendes. 
+  Filer skal gemmes i bitarkivet på ten ben, et nearline og et offline. Begge de involverede ben vil have en anseelig mændge cache, men vil være tape-backed.
+
+Foreslået løsning:
+* Filerne lægges på de to ben ved modtagelse,
+* Filer i cache vil blive rullet på bånd når et bestemt, men pt. udefineret (tidsbestemt, eller eksplicit ved godkendelse af batch), signal sendes. 
+* Filer fra batches der fejler validering vil blive slettet igen.
 * Vi antager at vi kan validere og afvise et batch før det bliver nødvendigt at rulle det på bånd, men i værste fald er der spildt noget plads på båndet
-* Nøglen der giver adgang til at slette fra bitmagasinet kan også slette allerede godkendte batches.
+* Nøglerne der giver adgang til at slette fra bitmagasinet skal eksplicit skaffes hvis der skal fjernes et ekstra batch. Som udgangspunkt kan nøglerne også slette allerede godkendte batches.
 
 ## Opgaver på data (jp2-filer)
 Overordnet beskrivelse:
   Alle operationer på data køres som hadoop-jobs på filer i bitmagasinet. Herunder karakterisering og generering af formidlingskopier.
+
 Foreslået løsning:
 * jpylizer køres i map-skridt af map/reduce-job. Resultatet lægges i DOMS (som datastream) i reduce-skridt.
 * Udtræk af histogram køres i map-skridt af map/reduce-job. Resultatet lægges i DOMS i reduce-skridt.
@@ -54,6 +61,7 @@ Foreslået løsning:
 ## Validering af metadata (i DOMS)
 Overordnet beskrivelse:
   Alle jobs der validerer metadata opfattes som jobs på et helt batch. Metadatavalidering kan være lokalt for én xml-fil eller kræve kendskab til sammenhæng mellem flere xml-filer i et batch - f.eks. validering af samme batchnummer i alt metadata eller validering af fortløbende sidenumre
+
 Foreslået løsning:
  * Validering implementeres som gennemløb af en træstruktur (svarende til filstruktur-hierarki), med mulighed for validering i hver knude
  * Validering af en enkelt XML-fil kan foretages med XML-schema og schematron
@@ -64,6 +72,7 @@ Foreslået løsning:
 ## Manuel QA
 Overordnet beskrivelse:
   Der skal foretages manuel QA på filer og metadata udvalgt efter statistisk princip. Derudover skal der evt. foretages manuel QA på filer vi kan identificere som mistænkelige (f.eks. et helt mørkt batch). Manuel QA kræver adgang til et system til at inspicere jp2-filer og metadata. Vi fravælger i første omgang at lave et egentligt workflowstyringsprogram.
+
 Foreslået løsning:
 * Der etableres en fremvisningsløsning til avissider i bitmagasinet. Toke har lavet en første udgave.
 * Der etableres mulighed for direkte links til objekter i DOMS GUI.
@@ -75,6 +84,8 @@ Foreslået løsning:
 ## Fejlede batches
 Overordnet beskrivelse:
   Batches fejles eller godkendes som et hele. Man kan ikke afvise dele af et batch, og leverandøren vil aflevere et nyt batch.
+
+Foreslået løsning
 * Hvis et batch fejler, skal hele batches slettes fra Bitarkivet
 * Slette fra bitmagasinet involverer anskaffelse af slette nøglen
 * Hvis et batch fejler, skal hele batches slettes fra DOMS
