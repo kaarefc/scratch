@@ -10,6 +10,7 @@
 ## Principper:
 * Tidlig ingest
 * QA, bevarings- og tilgængeliggørelsesopgaver foregår i arkivet
+* Autonome komponenter over forkromet workflow
 * Automatisk QA skal desuden kunne køres af Ninestars
 
 ## Elementer i løsningen:
@@ -68,6 +69,7 @@ Foreslået løsning:
  * Træet kan gennemløbes med et filsystem eller DOMS som nederste niveau
  * Resultatet af en validering skrives tilbage til DOMS
  * En fejlet validering skal medføre en notifikation til Supervisor
+ * Hellere små autonome skridt end ét stort workflow
 
 ## Manuel QA
 Overordnet beskrivelse:
