@@ -31,6 +31,21 @@
 * Platform til validering af metadata i DOMS
 * Udtræk af filer/metadata til manuel QA
 
+### Autonome komponenter
+
+Overordnet beskrivelse:
+
+  En autonom komponent holder hele tiden øje med systemet, og finder ud af om der er arbejde at udføre.
+  
+Foreslået løsning:
+* Komponenten laver en query, og finder ud af om der er opgaver at løse.
+* Query foretages til Summa-indeks over Doms-data.
+* Hvis der er opgaver at, løse startes en opgave.
+* Komponenten holder selv styr på om en opgave allerede er startet, og starter den ikke igen hvis den er startet. Kan gøres in memory.
+* Resultatet af opgaven skrives tilbage til Batch-objektet i DOMS som metadata. 
+* Informationer om at opgaven er kørt skives tilbage til Doms som bevaringsmetadata. Sikkert som et event i Premis.
+* Eventdata m.v. høstes jævnligt af Summa og danner grundlag for input til nye autonome komponenter.
+
 ## Ingest i arkivet
 
 Overordnet beskrivelse:
@@ -114,3 +129,18 @@ Foreslået løsning
 * Hvis et batch fejler, skal hele batches slettes fra DOMS
 * Doms kan slette uden en bestemt slette nøgle, da alt bliver bevaret alligevel, og kan genskabes.
 * Et genafleveret batch skal behandles på samme måde som et nyt batch
+
+## Overvågningsinterface
+
+Overordnet beskrivelse:
+
+  Et grafisk webinterface viser for hvert batch den nuværende tilstand
+  
+Foreslået løsning:
+
+* Hvert batch repræsenteres som en række i en tabel
+* Hver kolonne svarer til en autonom komponent, og om denne har været udført på batch'et
+* Hver celle i tabellen er en simpel lampe der viser om opgaven har været udført. Et tryk på lampen kan hente flere informationer frem.
+* Webinterfacet integrerer med MF PAK til at få tilstande fra denne også
+* Muligvis er det fra dette interface der også kan godkendes eller afvises et batch
+* 
