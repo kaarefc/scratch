@@ -1,3 +1,9 @@
+# DEPRECATED
+
+See https://sbforge.org/display/NEWSDIG/Architecture
+
+-----------------------------------
+
 # Foreslået arkitektur
 
 ## Opgaver der skal løses
